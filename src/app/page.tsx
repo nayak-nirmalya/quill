@@ -7,8 +7,6 @@ export default function Home() {
         <p className="text-sm font-semibold text-gray-700">
           Quill is now public!
         </p>
-        <h1>Enter Dashboard</h1>
-        <p>Click on the above button to enter.</p>
       </div>
     </MaxWidthWrapper>
   );
