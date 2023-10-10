@@ -1,5 +1,7 @@
-import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 
 export default function Home() {
   return (
@@ -19,7 +21,7 @@ export default function Home() {
       </p>
 
       <Link href="/dashboard" target="_blank">
-        Get started
+        Get started <ArrowRight className="ml-2 h-5 w-5" />
       </Link>
     </MaxWidthWrapper>
   );
