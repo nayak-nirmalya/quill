@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import { MaxWidthWrapper } from "./MaxWidthWrapper";
+import { buttonVariants } from "./ui/button";
 
 export function Navbar() {
   return (
@@ -13,6 +14,19 @@ export function Navbar() {
           </Link>
 
           {/* TODO: Add Mobile Navbar */}
+          <div className="hidden items-center space-x-4 sm:flex">
+            <>
+              <Link
+                href="/pricing"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                })}
+              >
+                Pricing
+              </Link>
+            </>
+          </div>
         </div>
       </MaxWidthWrapper>
     </nav>
