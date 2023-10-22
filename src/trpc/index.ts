@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import { db } from "@/db";
-import { publicProcedure, router } from "./trpc";
+import { privateProcedure, publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -30,6 +30,9 @@ export const appRouter = router({
     }
 
     return { success: true };
+  }),
+  getUserFiles: privateProcedure.query(({ ctx }) => {
+    const { user, userId } = ctx;
   }),
 });
 
