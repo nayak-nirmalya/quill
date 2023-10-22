@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { Ghost, Plus } from "lucide-react";
+import { Ghost, MessageSquare, Plus, TrashIcon } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import Link from "next/link";
 import { format } from "date-fns";
 
 import { UploadButton } from "./UploadButton";
 import { trpc } from "@/app/_trpc/client";
+import { Button } from "./ui/button";
 
 export function Dashboard() {
   const { data: files, isLoading } = trpc.getUserFiles.useQuery();
@@ -54,6 +55,14 @@ export function Dashboard() {
                     <Plus className="h-4 w-4" />
                     {format(new Date(file.createdAt), "MMM yyyy")}
                   </div>
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4" />
+                    Mocked
+                  </div>
+
+                  <Button size="sm" className="w-full" variant="destructive">
+                    <TrashIcon className="h-4 w-4" />
+                  </Button>
                 </div>
               </li>
             ))}
