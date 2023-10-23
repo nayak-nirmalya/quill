@@ -6,15 +6,41 @@ import { Cloud, File } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { Progress } from "./ui/progress";
 
 function UploadButtonDropzone() {
-  const [isUploading, setIsUploading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const startSimulatedProgress = () => {
+    setUploadProgress(0);
+
+    const interval = setInterval(() => {
+      setUploadProgress((prevProgress) => {
+        if (prevProgress >= 95) {
+          clearInterval(interval);
+          return prevProgress;
+        }
+        return prevProgress + 5;
+      });
+    }, 500);
+
+    return interval;
+  };
 
   return (
     <Dropzone
       multiple={false}
-      onDrop={(acceptedFile) => {
-        console.log(acceptedFile);
+      onDrop={async (acceptedFile) => {
+        setIsUploading(true);
+
+        const progressInterval = startSimulatedProgress();
+
+        // Handle File Uploading
+        // await new Promise((resolve) => setTimeout(resolve, 15000));
+
+        clearInterval(progressInterval);
+        setUploadProgress(100);
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -50,7 +76,12 @@ function UploadButtonDropzone() {
               ) : null}
 
               {isUploading ? (
-                <div className="w-full mt-4 max-w-xs mx-auto"></div>
+                <div className="w-full mt-4 max-w-xs mx-auto">
+                  <Progress
+                    value={uploadProgress}
+                    className="h-1 w-full bg-zinc-400"
+                  />
+                </div>
               ) : null}
             </label>
           </div>
