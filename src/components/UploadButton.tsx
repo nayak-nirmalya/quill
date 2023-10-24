@@ -7,10 +7,16 @@ import { Cloud, File } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
+import { useUploadThing } from "@/lib/uploadthing";
+import { useToast } from "./ui/use-toast";
 
-function UploadButtonDropzone() {
+function UploadDropzone() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const { toast } = useToast();
+
+  const { startUpload } = useUploadThing("pdfUploader");
 
   const startSimulatedProgress = () => {
     setUploadProgress(0);
@@ -38,6 +44,26 @@ function UploadButtonDropzone() {
 
         // Handle File Uploading
         // await new Promise((resolve) => setTimeout(resolve, 15000));
+        const res = await startUpload(acceptedFile);
+
+        if (!res) {
+          return toast({
+            title: "Something went wrong",
+            description: "Please try again later",
+            variant: "destructive",
+          });
+        }
+
+        const [fileResponse] = res;
+
+        const key = fileResponse.key;
+        if (!key) {
+          return toast({
+            title: "Something went wrong",
+            description: "Please try again later",
+            variant: "destructive",
+          });
+        }
 
         clearInterval(progressInterval);
         setUploadProgress(100);
@@ -106,7 +132,7 @@ export function UploadButton() {
       </DialogTrigger>
 
       <DialogContent>
-        <UploadButtonDropzone />
+        <UploadDropzone />
       </DialogContent>
     </Dialog>
   );
