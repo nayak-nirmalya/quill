@@ -27,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
+import { PdfFullscreen } from "./PdfFullscreen";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -151,7 +152,7 @@ export function PdfRenderer({ url }: { url: string }) {
             <RotateCw className="h-4 w-4" />
           </Button>
 
-          {/* <PdfFullscreen fileUrl={url} /> */}
+          <PdfFullscreen fileUrl={url} />
         </div>
       </div>
 
