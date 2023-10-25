@@ -28,6 +28,8 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 export function PdfRenderer({ url }: { url: string }) {
   const { toast } = useToast();
 
