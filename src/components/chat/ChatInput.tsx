@@ -1,6 +1,6 @@
 import React from "react";
 
-export function ChatInput() {
+export function ChatInput({ isDisabled }: { isDisabled?: boolean }) {
   return (
     <div className="absolute bottom-0 left-0 w-full">
       <div className="mx-2 flex flex-row gap-3 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">

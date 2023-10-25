@@ -45,7 +45,7 @@ export const appRouter = router({
         fileId: z.string(),
       })
     )
-    .mutation(async ({ input: { fileId }, ctx }) => {
+    .query(async ({ input: { fileId }, ctx }) => {
       const file = await db.file.findFirst({
         where: {
           id: fileId,
