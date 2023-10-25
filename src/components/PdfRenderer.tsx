@@ -14,6 +14,8 @@ import "react-pdf/dist/Page/TextLayer.css";
 import { z } from "zod";
 import SimpleBar from "simplebar-react";
 import { useResizeDetector } from "react-resize-detector";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useToast } from "./ui/use-toast";
 import { Button } from "./ui/button";
@@ -39,7 +41,34 @@ export function PdfRenderer({ url }: { url: string }) {
 
   const isLoading = renderedScale !== scale;
 
+  const CustomPageValidator = z.object({
+    page: z
+      .string()
+      .refine((num) => Number(num) > 0 && Number(num) <= numPages!),
+  });
+
+  type TCustomPageValidator = z.infer<typeof CustomPageValidator>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<TCustomPageValidator>({
+    defaultValues: {
+      page: "1",
+    },
+    resolver: zodResolver(CustomPageValidator),
+  });
+
+  console.log(errors);
+
   const { width, ref } = useResizeDetector();
+
+  const handlePageSubmit = ({ page }: TCustomPageValidator) => {
+    setCurrPage(Number(page));
+    setValue("page", String(page));
+  };
 
   return (
     <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
@@ -49,7 +78,7 @@ export function PdfRenderer({ url }: { url: string }) {
             disabled={currPage <= 1}
             onClick={() => {
               setCurrPage((prev) => (prev - 1 > 1 ? prev - 1 : 1));
-              // setValue("page", String(currPage - 1));
+              setValue("page", String(currPage - 1));
             }}
             variant="ghost"
             aria-label="previous page"
@@ -59,14 +88,14 @@ export function PdfRenderer({ url }: { url: string }) {
 
           <div className="flex items-center gap-1.5">
             <Input
-              // {...register("page")}
+              {...register("page")}
               className={cn(
-                "w-12 h-8"
-                // errors.page && "focus-visible:ring-red-500"
+                "w-12 h-8",
+                errors.page && "focus-visible:ring-red-500"
               )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  // handleSubmit(handlePageSubmit)();
+                  handleSubmit(handlePageSubmit)();
                 }
               }}
             />
@@ -82,7 +111,7 @@ export function PdfRenderer({ url }: { url: string }) {
               setCurrPage((prev) =>
                 prev + 1 > numPages! ? numPages! : prev + 1
               );
-              // setValue("page", String(currPage + 1));
+              setValue("page", String(currPage + 1));
             }}
             variant="ghost"
             aria-label="next page"
