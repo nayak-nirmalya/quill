@@ -58,18 +58,18 @@ export function PdfRenderer({ url }: { url: string }) {
           </Button>
 
           <div className="flex items-center gap-1.5">
-            {/* <Input
-              {...register("page")}
+            <Input
+              // {...register("page")}
               className={cn(
-                "w-12 h-8",
-                errors.page && "focus-visible:ring-red-500"
+                "w-12 h-8"
+                // errors.page && "focus-visible:ring-red-500"
               )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleSubmit(handlePageSubmit)();
+                  // handleSubmit(handlePageSubmit)();
                 }
               }}
-            /> */}
+            />
             <p className="text-zinc-700 text-sm space-x-1">
               <span>/</span>
               <span>{numPages ?? "x"}</span>
