@@ -34,11 +34,11 @@ export function ChatInput({ isDisabled }: { isDisabled?: boolean }) {
               />
 
               <Button
-                disabled={isLoading || isDisabled}
+                disabled={isDisabled}
                 className="absolute bottom-1.5 right-[8px]"
                 aria-label="send message"
                 onClick={() => {
-                  addMessage();
+                  // addMessage();
 
                   textareaRef.current?.focus();
                 }}
