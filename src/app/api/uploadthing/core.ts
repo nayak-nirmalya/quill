@@ -23,6 +23,13 @@ export const ourFileRouter = {
           uploadStatus: "PROCESSING",
         },
       });
+
+      try {
+        const response = await fetch(
+          `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`
+        );
+        const blob = await response.blob();
+      } catch (error) {}
     }),
 } satisfies FileRouter;
 
