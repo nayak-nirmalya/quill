@@ -3,6 +3,8 @@ import ReactMarkdown from "react-markdown";
 
 import { cn } from "@/lib/utils";
 import { ExtendedMessage } from "@/types/message";
+import { format } from "date-fns";
+import { Icons } from "../Icons";
 
 export function Message({
   message,
@@ -26,7 +28,13 @@ export function Message({
             invisible: isNextMessageSamePerson,
           }
         )}
-      ></div>
+      >
+        {message.isUserMessage ? (
+          <Icons.user className="fill-zinc-200 text-zinc-200 h-3/4 w-3/4" />
+        ) : (
+          <Icons.logo className="fill-zinc-300 h-3/4 w-3/4" />
+        )}
+      </div>
 
       <div
         className={cn("flex flex-col space-y-2 text-base max-w-md mx-2", {
@@ -43,7 +51,29 @@ export function Message({
             "rounded-bl-none":
               !isNextMessageSamePerson && !message.isUserMessage,
           })}
-        ></div>
+        >
+          {typeof message.text === "string" ? (
+            <ReactMarkdown
+              className={cn("prose", {
+                "text-zinc-50": message.isUserMessage,
+              })}
+            >
+              {message.text}
+            </ReactMarkdown>
+          ) : (
+            message.text
+          )}
+          {message.id !== "loading-message" ? (
+            <div
+              className={cn("text-xs select-none mt-2 w-full text-right", {
+                "text-zinc-500": !message.isUserMessage,
+                "text-blue-300": message.isUserMessage,
+              })}
+            >
+              {format(new Date(message.createdAt), "HH:mm")}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

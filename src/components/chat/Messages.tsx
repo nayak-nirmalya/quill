@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 
 import { trpc } from "@/app/_trpc/client";
 import { INFINITY_QUERY_LIMIT } from "@/config/infinite-query";
+import { Message } from "./Message";
 
 export function Messages({ fileId }: { fileId: string }) {
   const { data, isLoading, fetchNextPage } =
@@ -45,9 +46,21 @@ export function Messages({ fileId }: { fileId: string }) {
             combinedMessages[index]?.isUserMessage;
 
           if (index === combinedMessages.length - 1) {
-            return <div key={index}>Hi</div>;
+            return (
+              <Message
+                key={message.id}
+                isNextMessageSamePerson={isNextMessageSamePerson}
+                message={message}
+              />
+            );
           } else {
-            return <div key={index}>Hi</div>;
+            return (
+              <Message
+                key={message.id}
+                isNextMessageSamePerson={isNextMessageSamePerson}
+                message={message}
+              />
+            );
           }
         })
       ) : isLoading ? (
