@@ -1,6 +1,7 @@
 import React from "react";
+import Link from "next/link";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { HelpCircle, Minus, Check, Link, ArrowRight } from "lucide-react";
+import { HelpCircle, Minus, Check, ArrowRight } from "lucide-react";
 
 import { PLANS } from "@/config/stripe";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
