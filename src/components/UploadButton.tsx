@@ -12,7 +12,7 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { useToast } from "./ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 
-function UploadDropzone() {
+function UploadDropzone({ isSubscribed }: { isSubscribed: boolean }) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -20,7 +20,9 @@ function UploadDropzone() {
 
   const { toast } = useToast();
 
-  const { startUpload } = useUploadThing("pdfUploader");
+  const { startUpload } = useUploadThing(
+    isSubscribed ? "proPlanUploader" : "freePlanUploader"
+  );
 
   const { mutate: startPolling } = trpc.getFile.useMutation({
     onSuccess: (file) => {
@@ -100,7 +102,7 @@ function UploadDropzone() {
                   and drop
                 </p>
                 <p className="text-xs text-zinc-500">
-                  PDF (up to {true ? "16" : "4"}MB)
+                  PDF (up to {isSubscribed ? "16" : "4"}MB)
                 </p>
               </div>
 
@@ -147,7 +149,7 @@ function UploadDropzone() {
   );
 }
 
-export function UploadButton() {
+export function UploadButton({ isSubscribed }: { isSubscribed: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -162,7 +164,7 @@ export function UploadButton() {
       </DialogTrigger>
 
       <DialogContent>
-        <UploadDropzone />
+        <UploadDropzone isSubscribed={isSubscribed} />
       </DialogContent>
     </Dialog>
   );
