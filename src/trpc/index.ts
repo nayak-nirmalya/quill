@@ -5,6 +5,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { privateProcedure, publicProcedure, router } from "./trpc";
 import { INFINITY_QUERY_LIMIT } from "@/config/infinite-query";
+import { absoluteUrl } from "@/lib/utils";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -40,6 +41,20 @@ export const appRouter = router({
       where: { userId },
     });
   }),
+  createStripeSession: privateProcedure.mutation(
+    async ({ ctx: { userId } }) => {
+      const billingUrl = absoluteUrl("/dashboard/billing");
+
+      if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+      const dbUesr = await db.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+      if (!dbUesr) throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+  ),
   getFileMessages: privateProcedure
     .input(
       z.object({
