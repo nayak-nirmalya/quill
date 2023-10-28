@@ -190,8 +190,8 @@ export function ChatContextProvider({
     },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(event.target.value);
   };
 
   const addMessage = () => sendMessage({ message });
