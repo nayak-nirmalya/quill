@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Quill - A Modern FullStack SaaS-Platform
+
+Built with the Next.js 13.5 App Router, tRPC, TypeScript, Prisma & Tailwind.
+
+Credits: [Joscha Neske](https://www.youtube.com/@joshtriedcoding/videos)
+
+## Features
+
+- 🛠️ Complete SaaS with Payment & Subscription
+- 💻 Beautiful Landing Page & Pricing Page Included
+- 💳 Free & Pro Plan Using Stripe
+- 📄 A Beautiful And Highly Functional PDF Viewer
+- 🔄 Streaming API Responses in Real-Time
+- 🔒 Authentication Using Kinde
+- 🎨 Clean, Modern UI Using 'shadcn-ui'
+- 🚀 Optimistic UI Updates for a Great UX
+- ⚡ Infinite Message Loading for Performance
+- 📤 Intuitive Drag n’ Drop Uploads
+- ✨ Instant Loading States
+- 🔧 Modern Data Fetching Using tRPC & Zod
+- 🧠 LangChain for Infinite AI Memory
+- 🌲 Pinecone as our Vector Storage
+- 📊 Prisma as our ORM
+- 🔤 Fully TypeSafe with TypeScript
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Node version 18.x.x**
+
+### Cloning the repository
+
+```shell
+git clone https://github.com/nayak-nirmalya/quill.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install Packages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Setup .env file
 
-## Learn More
+```js
+# Kinde
+KINDE_CLIENT_ID=
+KINDE_CLIENT_SECRET=
+KINDE_ISSUER_URL=
+KINDE_SITE_URL=
+KINDE_POST_LOGOUT_REDIRECT_URL=
+KINDE_POST_LOGIN_REDIRECT_URL=
 
-To learn more about Next.js, take a look at the following resources:
+# Database (PlanetScale)
+DATABASE_URL=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Uploadthing
+UPLOADTHING_SECRET=
+UPLOADTHING_APP_ID=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# OpenAI
+OPENAI_API_KEY=
 
-## Deploy on Vercel
+# Stripe
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Pinecone
+PINECONE_API_KEY=
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Setup Prisma
+
+Add MySQL Database (PlanetScale)
+
+```shell
+npx prisma generate
+npx prisma db push
+```
+
+### Start the App
+
+```shell
+pnpm dev
+```
+
+## Available Commands
+
+Running commands with npm `pnpm [command]`
+
+| command | description                              |
+| :------ | :--------------------------------------- |
+| `dev`   | Starts a development instance of the app |
+| `lint`  | Run lint check                           |
+| `build` | Start building app for deployment        |
+| `start` | Run build version of app                 |
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
