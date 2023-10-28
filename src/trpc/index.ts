@@ -6,6 +6,8 @@ import { db } from "@/db";
 import { privateProcedure, publicProcedure, router } from "./trpc";
 import { INFINITY_QUERY_LIMIT } from "@/config/infinite-query";
 import { absoluteUrl } from "@/lib/utils";
+import { getUserSubscriptionPlan, stripe } from "@/lib/stripe";
+import { PLANS } from "@/config/stripe";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -53,6 +55,39 @@ export const appRouter = router({
         },
       });
       if (!dbUesr) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+      const subscriptionPlan = await getUserSubscriptionPlan();
+
+      if (subscriptionPlan.isSubscribed && dbUesr.stripeCustomerId) {
+        const stripeSession = await stripe.billingPortal.sessions.create({
+          customer: dbUesr.stripeCustomerId,
+          return_url: billingUrl,
+        });
+
+        return {
+          url: stripeSession.url,
+        };
+      }
+
+      const stripeSession = await stripe.checkout.sessions.create({
+        success_url: billingUrl,
+        cancel_url: billingUrl,
+        payment_method_types: ["card"],
+        mode: "subscription",
+        billing_address_collection: "auto",
+        line_items: [
+          {
+            price: PLANS.find((plan) => plan.name === "Pro")?.price.priceIds
+              .test,
+            quantity: 1,
+          },
+        ],
+        metadata: {
+          userId,
+        },
+      });
+
+      return { url: stripeSession.url };
     }
   ),
   getFileMessages: privateProcedure
