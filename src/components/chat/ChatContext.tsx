@@ -98,6 +98,18 @@ export function ChatContextProvider({
           previousMessages?.pages.flatMap((page) => page.messages) ?? [],
       };
     },
+    onError: (_, __, context) => {
+      setMessage(backupMessage.current);
+      utils.getFileMessages.setData(
+        { fileId },
+        { messages: context?.previousMessages ?? [] }
+      );
+    },
+    onSettled: async () => {
+      setIsLoading(false);
+
+      await utils.getFileMessages.invalidate({ fileId });
+    },
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
